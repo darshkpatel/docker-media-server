@@ -10,6 +10,7 @@ services:
       - "9117:9117"
     volumes:
       - "${BASE_PATH}/config/jackett:/config"
+      - blackhole:/downloads
   radarr:
     container_name: radarr
     environment:
@@ -21,6 +22,7 @@ services:
       - "${BASE_PATH}/config/radarr:/config"
       - movies:/movies
       - downloads:/downloads
+      - blackhole:/blackhole
   transmission:
     container_name: transmission
     environment:
@@ -45,10 +47,21 @@ services:
     volumes:
       - ${BASE_PATH}/config/sonarr:/config
       - tv:/tv
-      - downloads:/downloads
+      - downloads:/
+      - blackhole:/blackhole
     ports:
       - 8989:8989
-
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - VERSION=docker
+      - "PLEX_CLAIM=${PLEX_CLAIM}" #optional
+    volumes:
+      - "${BASE_PATH}/config/plex:/config"
+      - tv:/tv
+      - movies:/movies
 
 
 volumes:
