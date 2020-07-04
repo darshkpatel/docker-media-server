@@ -9,7 +9,7 @@ services:
     ports:
       - "9117:9117"
     volumes:
-      - "/home/darsh/jackett:/config"
+      - "/home/darsh/config/jackett:/config"
   radarr:
     container_name: radarr
     environment:
@@ -18,24 +18,37 @@ services:
     ports:
       - "7878:7878"
     volumes:
-      - "/home/darsh/radarr:/config"
+      - "/home/darsh/config/radarr:/config"
       - movies:/movies
       - downloads:/downloads
   transmission:
     container_name: transmission
     environment:
       - TZ=Asia/Kolkata
-      - USER= REDACTED
-      - "PASS= REDACTED"
+      - "USER=${TRANSMISSION_USER}"
+      - "PASS=${TRANSMISSION_PASS}"
     image: linuxserver/transmission
     ports:
       - "9091:9091"
       - "51413:51413"
       - "51413:51413/udp"
     volumes:
-      - "/home/darsh/transmission:/config"
+      - "/home/darsh/config/transmission:/config"
       - downloads:/downloads
       - blackhole:/watch
+
+  sickrage:
+    image: linuxserver/sickrage
+    container_name: sickrage
+    environment:
+      - TZ=Asia/Kolkata
+    volumes:
+      - "/home/darsh/config/sickrage:/config"
+      - downloads:/downloads
+      - tv:/tv
+    ports:
+      - 8081:8081
+
 volumes:
   blackhole:
     driver: local
@@ -53,5 +66,11 @@ volumes:
     driver: local
     driver_opts:
       device: "${PWD}/movies"
+      o: bind
+      type: none
+  tv:
+    driver: local
+    driver_opts:
+      device: "${PWD}/tv_shows"
       o: bind
       type: none
