@@ -1,0 +1,57 @@
+version: "3.1"
+services:
+  jackett:
+    container_name: jackett
+    environment:
+      - TZ=Asia/Kolkata
+      - AUTO_UPDATE=true
+    image: linuxserver/jackett
+    ports:
+      - "9117:9117"
+    volumes:
+      - "/home/darsh/jackett:/config"
+  radarr:
+    container_name: radarr
+    environment:
+      - TZ=Asia/Kolkata
+    image: linuxserver/radarr
+    ports:
+      - "7878:7878"
+    volumes:
+      - "/home/darsh/radarr:/config"
+      - movies:/movies
+      - downloads:/downloads
+  transmission:
+    container_name: transmission
+    environment:
+      - TZ=Asia/Kolkata
+      - USER= REDACTED
+      - "PASS= REDACTED"
+    image: linuxserver/transmission
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    volumes:
+      - "/home/darsh/transmission:/config"
+      - downloads:/downloads
+      - blackhole:/watch
+volumes:
+  blackhole:
+    driver: local
+    driver_opts:
+      device: "${PWD}/blackhole"
+      o: bind
+      type: none
+  downloads:
+    driver: local
+    driver_opts:
+      device: "${PWD}/downloads"
+      o: bind
+      type: none
+  movies:
+    driver: local
+    driver_opts:
+      device: "${PWD}/movies"
+      o: bind
+      type: none
