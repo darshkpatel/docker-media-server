@@ -47,7 +47,7 @@ services:
     volumes:
       - ${BASE_PATH}/config/sonarr:/config
       - tv:/tv
-      - downloads:/
+      - downloads:/downloads
       - blackhole:/blackhole
     ports:
       - 8989:8989
