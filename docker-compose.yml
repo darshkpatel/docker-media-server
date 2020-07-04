@@ -9,7 +9,7 @@ services:
     ports:
       - "9117:9117"
     volumes:
-      - "/home/darsh/config/jackett:/config"
+      - "${BASE_PATH}/config/jackett:/config"
   radarr:
     container_name: radarr
     environment:
@@ -18,7 +18,7 @@ services:
     ports:
       - "7878:7878"
     volumes:
-      - "/home/darsh/config/radarr:/config"
+      - "${BASE_PATH}/config/radarr:/config"
       - movies:/movies
       - downloads:/downloads
   transmission:
@@ -33,44 +33,46 @@ services:
       - "51413:51413"
       - "51413:51413/udp"
     volumes:
-      - "/home/darsh/config/transmission:/config"
+      - "${BASE_PATH}/config/transmission:/config"
       - downloads:/downloads
       - blackhole:/watch
 
-  sickrage:
-    image: linuxserver/sickrage
-    container_name: sickrage
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
     environment:
       - TZ=Asia/Kolkata
     volumes:
-      - "/home/darsh/config/sickrage:/config"
-      - downloads:/downloads
+      - ${BASE_PATH}/config/sonarr:/config
       - tv:/tv
+      - downloads:/downloads
     ports:
-      - 8081:8081
+      - 8989:8989
+
+
 
 volumes:
   blackhole:
     driver: local
     driver_opts:
-      device: "${PWD}/blackhole"
+      device: "${BASE_PATH}/blackhole"
       o: bind
       type: none
   downloads:
     driver: local
     driver_opts:
-      device: "${PWD}/downloads"
+      device: "${BASE_PATH}/downloads"
       o: bind
       type: none
   movies:
     driver: local
     driver_opts:
-      device: "${PWD}/movies"
+      device: "${BASE_PATH}/movies"
       o: bind
       type: none
   tv:
     driver: local
     driver_opts:
-      device: "${PWD}/tv_shows"
+      device: "${BASE_PATH}/tv_shows"
       o: bind
       type: none
