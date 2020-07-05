@@ -1,5 +1,6 @@
 version: "3.1"
 services:
+
   jackett:
     container_name: jackett
     environment:
@@ -10,23 +11,6 @@ services:
       - "9117:9117"
     volumes:
       - "${BASE_PATH}/config/jackett:/config"
-      - blackhole:/downloads
-
-  transmission:
-    container_name: transmission
-    environment:
-      - TZ=Asia/Kolkata
-      - "USER=${TRANSMISSION_USER}"
-      - "PASS=${TRANSMISSION_PASS}"
-    image: linuxserver/transmission
-    ports:
-      - "9091:9091"
-      - "51413:51413"
-      - "51413:51413/udp"
-    volumes:
-      - "${BASE_PATH}/config/transmission:/config"
-      - downloads:/downloads
-      - blackhole:/watch
 
   aria2-ui:
     restart: unless-stopped
@@ -37,6 +21,7 @@ services:
       - ENABLE_AUTH=false
     ports:
       - "80:80"
+
   minidlna:
       container_name: minidlna
       network_mode: host
@@ -49,12 +34,6 @@ services:
           - downloads:/opt/Pictures
       image: geekduck/minidlna
 volumes:
-  blackhole:
-    driver: local
-    driver_opts:
-      device: "${BASE_PATH}/blackhole"
-      o: bind
-      type: none
   downloads:
     driver: local
     driver_opts:
