@@ -11,18 +11,29 @@ services:
     volumes:
       - "${BASE_PATH}/config/jackett:/config"
       - blackhole:/downloads
-  radarr:
-    container_name: radarr
+  sickrage:
+    image: linuxserver/sickrage
+    container_name: sickrage
     environment:
       - TZ=Asia/Kolkata
-    image: linuxserver/radarr
-    ports:
-      - "7878:7878"
     volumes:
-      - "${BASE_PATH}/config/radarr:/config"
-      - movies:/movies
+      - "${BASE_PATH}/config/sickrage:/config"
       - downloads:/downloads
-      - blackhole:/blackhole
+      - tv/shows:/tv
+    ports:
+      - 8081:8081
+
+  couchpotato:
+    image: linuxserver/couchpotato
+    container_name: couchpotato
+    environment:
+      - TZ=Asia/Kolkata
+    volumes:
+      - "${BASE_PATH}/config/couchpotato:/config"
+      - downloads:/downloads
+      - movies:/movies
+    ports:
+      - 5050:5050
   transmission:
     container_name: transmission
     environment:
@@ -38,19 +49,6 @@ services:
       - "${BASE_PATH}/config/transmission:/config"
       - downloads:/downloads
       - blackhole:/watch
-
-  sonarr:
-    image: linuxserver/sonarr
-    container_name: sonarr
-    environment:
-      - TZ=Asia/Kolkata
-    volumes:
-      - ${BASE_PATH}/config/sonarr:/config
-      - tv:/tv
-      - downloads:/downloads
-      - blackhole:/blackhole
-    ports:
-      - 8989:8989
   plex:
     image: linuxserver/plex
     container_name: plex
