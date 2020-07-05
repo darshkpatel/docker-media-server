@@ -11,15 +11,16 @@ services:
     volumes:
       - "${BASE_PATH}/config/jackett:/config"
       - blackhole:/downloads
-  sickrage:
-    image: linuxserver/sickrage
-    container_name: sickrage
+  sickchill:
+    image: linuxserver/sickchill
+    container_name: sickchill
     environment:
       - TZ=Asia/Kolkata
     volumes:
       - "${BASE_PATH}/config/sickrage:/config"
       - downloads:/downloads
-      - tv/shows:/tv
+      - tv:/tv
+      - blackhole:/watch
     ports:
       - 8081:8081
 
@@ -32,6 +33,7 @@ services:
       - "${BASE_PATH}/config/couchpotato:/config"
       - downloads:/downloads
       - movies:/movies
+      - blackhole:/watch
     ports:
       - 5050:5050
   transmission:
@@ -61,7 +63,15 @@ services:
       - tv:/tv
       - movies:/movies
 
-
+  aria2-ui:
+    restart: unless-stopped
+    image: wahyd4/aria2-ui:latest
+    volumes:
+      - downloads:/data
+    environment:
+      - ENABLE_AUTH=false
+    ports:
+      - "8888:80"
 volumes:
   blackhole:
     driver: local
