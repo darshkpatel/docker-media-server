@@ -1,0 +1,13 @@
+#cloud-config
+rancher:
+  network:
+    interfaces:
+      eth1:
+        address: 192.168.1.121/24
+        gateway: 192.168.1.101
+        mtu: 1500
+        dhcp: false
+
+ssh_authorized_keys:
+  # Public Key
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJOgouawvhsxt8I4EQ9WUhxhwXuGJpbYbOWYLGnLPxjQV9EtluSPZUHN/AqStytSJDWuDGIqH5DeU81btBTEB/P0Km9PF+Ufy/5gS2Q+ST+EB3uMKe++1t8VeH3xqN09EQ/0ebFLx8ARDAWut8lzTIAsdUyOoI7EykWQ35OUyswNUsgmVwrEXHvhQBNsRqJ42INZLWTehpiCxytc4EEu3CzAxBE5C6ICFgVquF4l23mrezxr9yfeQSTgLqR9aOnF343qC6fGlId6V/RyOFx55EXXP6UguyTQ5gs1Ud5g/sfk2U7E703ytS9r+wsOeaQ8kOoHib5IBcYczJRo/2MdRF darsh@macbookpro
