@@ -72,7 +72,7 @@ services:
       - "${BASE_PATH}/config/hemidall:/config"
     ports:
       - 8000:80
-      - 443:443
+      - 8443:443
   aria2-ui:
     restart: unless-stopped
     image: wahyd4/aria2-ui:latest
