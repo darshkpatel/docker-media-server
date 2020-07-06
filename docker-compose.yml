@@ -62,7 +62,17 @@ services:
       - "${BASE_PATH}/config/plex:/config"
       - tv:/tv
       - movies:/movies
-
+  heimdall:
+    image: linuxserver/heimdall
+    restart: unless-stopped
+    container_name: heimdall
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - "${BASE_PATH}/config/hemidall:/config"
+    ports:
+      - 8000:80
+      - 443:443
   aria2-ui:
     restart: unless-stopped
     image: wahyd4/aria2-ui:latest
