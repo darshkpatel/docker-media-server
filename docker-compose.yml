@@ -73,6 +73,16 @@ services:
     ports:
       - 8000:80
       - 8443:443
+  portainer:
+      image: portainer/portainer
+      ports:
+          - '8001:8000'
+          - '9001:9000'
+      container_name: portainer
+      restart: always
+      volumes:
+          - '/var/run/docker.sock:/var/run/docker.sock'
+          - 'portainer_data:/data'
   aria2-ui:
     restart: unless-stopped
     image: wahyd4/aria2-ui:latest
@@ -83,6 +93,8 @@ services:
     ports:
       - "8888:80"
 volumes:
+  portainer_data:
+    driver: host
   blackhole:
     driver: local
     driver_opts:
