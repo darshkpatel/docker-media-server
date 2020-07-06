@@ -67,7 +67,7 @@ services:
     restart: unless-stopped
     container_name: heimdall
     environment:
-      - TZ=Europe/London
+      - TZ=Asia/Kolkata
     volumes:
       - "${BASE_PATH}/config/hemidall:/config"
     ports:
